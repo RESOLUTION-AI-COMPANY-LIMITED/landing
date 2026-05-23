@@ -1,36 +1,136 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# R.AI — resolutionai.vn
 
-## Getting Started
+Corporate website cho **Resolution AI** (R.AI) — Data & AI First Company.
 
-First, run the development server:
+## Tech Stack
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Framework**: Next.js 16 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS v4
+- **Animation**: Framer Motion
+- **Font**: Geist Sans (self-hosted)
+- **Runtime**: Bun (Docker) / Node.js (dev)
+- **Deploy**: Docker (Bun distroless) / Vercel / AWS
+
+## Cấu trúc
+
+```
+src/
+├── app/
+│   ├── page.tsx              # Home
+│   ├── about/                # Về R.AI
+│   ├── solutions/            # Giải pháp (5 verticals)
+│   ├── technology/           # Công nghệ (Bento grid)
+│   ├── blog/                 # Blog listing
+│   ├── blog/[slug]/          # Blog detail (SSG)
+│   ├── contact/              # Liên hệ (form)
+│   ├── faqs/                 # FAQ accordion
+│   ├── terms/                # Điều khoản
+│   ├── privacy/              # Bảo mật
+│   ├── cookies/              # Cookies
+│   ├── license/              # Giấy phép
+│   ├── robots.ts             # robots.txt
+│   ├── sitemap.ts            # sitemap.xml (14 URLs)
+│   ├── opengraph-image.tsx   # Dynamic OG image (Edge)
+│   └── icon.svg              # Favicon
+├── components/
+│   ├── Hero.tsx              # Full-screen hero
+│   ├── HomePreview.tsx       # Stats + platform cards + CTA
+│   ├── Technology.tsx        # Bento grid
+│   ├── Verticals.tsx         # Horizontal scroll cards
+│   ├── WhyRAI.tsx            # About: vision/mission/stats/timeline/team
+│   ├── Contact.tsx           # Form + info
+│   ├── Header.tsx            # Fixed nav
+│   ├── Footer.tsx            # 3-column footer
+│   ├── BlogList.tsx          # Blog listing
+│   ├── BlogDetail.tsx        # Blog article
+│   ├── LegalPage.tsx         # Shared legal layout
+│   └── StructuredData.tsx    # JSON-LD schemas
+└── lib/
+    └── posts.ts              # Blog content (static)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Development
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm install
+npm run dev
+# → http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Docker
 
-## Learn More
+```bash
+# Build & run
+docker compose up --build -d
 
-To learn more about Next.js, take a look at the following resources:
+# Check status
+docker compose ps
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Stop
+docker compose down
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Image: ~166MB (Bun distroless, Next.js standalone)
 
-## Deploy on Vercel
+## Deploy
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Vercel (recommended for simplicity)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npx vercel
+```
+
+### Docker (AWS ECS / VPS / any container platform)
+
+```bash
+docker build -t rai-landing .
+docker run -p 3000:3000 rai-landing
+```
+
+### Static Export (S3 + CloudFront)
+
+Change `next.config.ts`:
+```ts
+output: "export"
+```
+Then upload `/out` directory.
+
+## Routes
+
+| Path | Trang |
+|------|-------|
+| `/` | Home |
+| `/about` | Về R.AI |
+| `/solutions` | Giải pháp (5 verticals) |
+| `/technology` | Công nghệ |
+| `/blog` | Blog |
+| `/blog/[slug]` | Blog detail |
+| `/contact` | Liên hệ |
+| `/faqs` | FAQ |
+| `/terms` | Điều khoản |
+| `/privacy` | Bảo mật |
+| `/cookies` | Cookies |
+| `/license` | Giấy phép |
+
+## SEO
+
+- Title template: `%s | R.AI`
+- OG Image: Dynamic (Edge runtime, 1200x630)
+- JSON-LD: Organization + WebSite + BlogPosting
+- Sitemap: 14 URLs auto-generated
+- Canonical URLs per page
+- Vietnamese locale (`vi_VN`)
+
+## Company Info
+
+- **Công ty**: CÔNG TY TNHH RESOLUTION AI
+- **MST**: 0108572098
+- **Website**: resolutionai.vn
+- **Email**: contact@resolutionai.vn
+- **Phone**: 082 2470465
+- **Địa chỉ**: Hà Nội, Việt Nam
+
+## License
+
+Private. © 2026 Resolution AI Company Limited.
